@@ -55,4 +55,14 @@ public class Part {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return
+                "name='" + name + '\'' +
+                ", partNum='" + partNum + '\'' +
+                ", desc='" + desc + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity ;
+    }
 }

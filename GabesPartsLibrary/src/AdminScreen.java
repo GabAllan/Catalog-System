@@ -8,8 +8,11 @@ public class AdminScreen extends JFrame  {
     private JButton insertButton;
     private JButton deleteButton;
     private JButton editButton;
+    // List Things
     private JList partsList;
+    DefaultListModel<Part> model = new DefaultListModel<>();
     private JComboBox engineSelector;
+
 
 
     public AdminScreen(String title) {
@@ -18,6 +21,12 @@ public class AdminScreen extends JFrame  {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(adminScreen);
         this.pack();
+
+        // List Code
+        // Largely followed this tutorial:
+        // https://youtu.be/KOI1WbkKUpQ
+        partsList.setModel(model);
+        model.addElement(new Part("A Part", "123", "A New Part", 3, 50));
 
 
         // The following should open a new window that will allow the
