@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class AdminScreen extends JFrame  {
     private JPanel assemblyDiagram;
@@ -10,9 +13,15 @@ public class AdminScreen extends JFrame  {
     private JButton editButton;
     // List Things
     private JList partsList;
-    DefaultListModel<Part> model = new DefaultListModel<>();
+    DefaultListModel<Part> model;
+    // Drop-down Things
     private JComboBox engineSelector;
-
+    DefaultComboBoxModel<Engine> engModel;
+    private JPanel leftPanel;
+    private JPanel rightPanel;
+    private JSplitPane labelPanel;
+    private JComboBox assySelector;
+    DefaultComboBoxModel<Assembly> assyModel;
 
 
     public AdminScreen(String title) {
@@ -22,11 +31,28 @@ public class AdminScreen extends JFrame  {
         this.setContentPane(adminScreen);
         this.pack();
 
+        // The drop-down list code
+        // I suspect works mostly like the list does
+        // Since it is just a list, but drop down
+        engModel = new DefaultComboBoxModel<>();
+        engineSelector.setModel(engModel);
+        // This should add the models based on a CSV full of stuff??
+        Engine gx390 = new Engine("Honda", "GX390", new ArrayList<Assembly>());
+        engModel.addElement(gx390);
+        Assembly airCleaner = new Assembly("Air Cleaner", new ArrayList<Part>());
+        gx390.assys.add(airCleaner);
+        assyModel = new DefaultComboBoxModel(gx390.assys.toArray());
+        assySelector.setModel(assyModel);
+
+
         // List Code
         // Largely followed this tutorial:
         // https://youtu.be/KOI1WbkKUpQ
+        model = new DefaultListModel<>();
         partsList.setModel(model);
-        model.addElement(new Part("A Part", "123", "A New Part", 3, 50));
+        // This should add the models based on a CSV full of stuff??
+        model.addElement(new Part(1,"A Part", "123", "A New Part", 3, 50, "./src/partPics/a_Part.jpg"));
+
 
 
         // The following should open a new window that will allow the
@@ -35,7 +61,8 @@ public class AdminScreen extends JFrame  {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame addPart = new InsertWindow("Add New Part");
+                addPart.setVisible(true);
             }
         });
 
@@ -59,6 +86,30 @@ public class AdminScreen extends JFrame  {
             }
         });
 
+        // When you double click a list object, a new window should open
+        partsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                // String name, String partNum, String desc, float price, int quantity
+                String partName = model.get(partsList.getSelectedIndex()).getName();
+                String partNum = model.get(partsList.getSelectedIndex()).getPartNum();
+                String desc = model.get(partsList.getSelectedIndex()).getDesc();
+                float price = model.get(partsList.getSelectedIndex()).getPrice();
+                int quantity = model.get(partsList.getSelectedIndex()).getQuantity();
+                String picPath = model.get(partsList.getSelectedIndex()).getPicPath();
+
+                // The following if-then statement makes it so that
+                // list items require double clicking to open the dialog
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    // JOptionPane.showMessageDialog(null, "You clicked the thing.");
+                    JDialog partsInfo = new PartsInfoWindow(partName, partNum, desc, price, quantity, picPath);
+                    partsInfo.setVisible(true);
+
+                }
+
+            }
+        });
     }
 
 }

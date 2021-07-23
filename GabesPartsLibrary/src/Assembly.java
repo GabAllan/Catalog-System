@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Assembly {
     private String name;
     private String imageFilePath;
-    private ArrayList<Part> parts = new ArrayList<Part>(); // There is a list of parts associated with each assembly
+    public ArrayList<Part> parts = new ArrayList<Part>(); // There is a list of parts associated with each assembly
 
     public Assembly() {
     }
@@ -21,13 +21,13 @@ public class Assembly {
         this.name = name;
     }
 
-    public ArrayList<Part> getParts() {
-        return parts;
-    }
-
-    public void setParts(ArrayList<Part> parts) {
-        this.parts = parts;
-    }
+//    public ArrayList<Part> getParts() {
+//        return parts;
+//    }
+//
+//    public void setParts(ArrayList<Part> parts) {
+//        this.parts = parts;
+//    }
 
     public String getImageFilePath() {
         return imageFilePath;
@@ -35,5 +35,10 @@ public class Assembly {
 
     public void setImageFilePath(String imageFilePath) {
         this.imageFilePath = imageFilePath;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

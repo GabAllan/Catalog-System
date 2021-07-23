@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Engine {
     private String brandName;
     private String modelNum;
-    private ArrayList<Assembly> assys = new ArrayList<Assembly>();
+    public ArrayList<Assembly> assys = new ArrayList<Assembly>();
 
     public Engine() {
     }
@@ -30,11 +30,25 @@ public class Engine {
         this.modelNum = modelNum;
     }
 
-    public ArrayList<Assembly> getAssys() {
-        return assys;
-    }
+    // The engine assemblys have been made public so that
+    // it is easier to access the associated methods
+    // outside the class, rather than trying to
+    // create an interface by creating public
+    // methods that just mirror the arraylist
+    // methods. There may be an easier ("proper") way to do this.
 
-    public void setAssys(ArrayList<Assembly> assys) {
-        this.assys = assys;
+
+//    public ArrayList<Assembly> getAssys() {
+//        return assys;
+//    }
+//
+//    public void setAssys(ArrayList<Assembly> assys) {
+//        this.assys = assys;
+//    }
+
+    @Override
+    public String toString() {
+        return
+                 brandName + " " + modelNum;
     }
 }
