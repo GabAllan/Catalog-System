@@ -5,6 +5,7 @@ public class Assembly {
     private String imageFilePath;
     public ArrayList<Part> parts = new ArrayList<Part>(); // There is a list of parts associated with each assembly
     private String assyPath;
+    private String partsPath;
 
     public Assembly() {
     }
@@ -46,8 +47,22 @@ public class Assembly {
         this.assyPath = assyPath;
     }
 
+    public String getPartsPath() {
+        return partsPath;
+    }
+
+    public void setPartsPath(String partsPath) {
+        this.partsPath = partsPath;
+    }
+
     @Override
     public String toString() {
         return name;
+    }
+
+    // Mainly used for debugging purposes
+    public String toFullString() {
+        return name + " " + imageFilePath + " " + assyPath;
+
     }
 }

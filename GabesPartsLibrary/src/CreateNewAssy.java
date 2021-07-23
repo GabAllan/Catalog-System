@@ -35,7 +35,7 @@ public class CreateNewAssy extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fc = new JFileChooser();
                 fc.showOpenDialog(CreateNewAssy);
-                assyImage.setText(fc.getSelectedFile().getPath());
+                assyImage.setText(fc.getSelectedFile().getPath().replace("\\", "\\\\"));
             }
         });
 
@@ -45,19 +45,32 @@ public class CreateNewAssy extends JFrame {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                // Create a new assembly
                 Assembly userNewAssy = new Assembly(assyName.getText(), new ArrayList<Part>());
                 userNewAssy.setImageFilePath(assyImage.getText());
+                userNewAssy.setAssyPath(eng.getEnginePath() + "/Assemblies/");
                 eng.assys.add(userNewAssy);
+
                 // Create a new assembly folder under the engines folder
                 String csv =  eng.getBrandName() + "_" + eng.getModelNum() + "_assys" + ".csv";
                 String assyFilePath = eng.getEnginePath() + "/Assemblies/" + csv;
                 userNewAssy.setAssyPath(eng.getEnginePath() + "/Assemblies/" + csv);
-                System.out.println(assyFilePath);
+//                System.out.println(assyFilePath);
                 File assyCsv = new File(assyFilePath);
 
+                // Create an Assembly folder, named after the assembly. This will house the parts.
+                String partsPath = eng.getEnginePath() + "/Assemblies/" + userNewAssy.getName();
+                userNewAssy.setPartsPath(partsPath);
+                File newDir = new File(partsPath);
+                if (!newDir.exists()) {
+                    newDir.mkdirs();
+                }
+
+                //Next we can go ahead and write to the assembly CSV
                 try {
                     CSVWriter writer = new CSVWriter(new FileWriter(assyCsv, true));
-                    String[] data = {userNewAssy.getName(), userNewAssy.getImageFilePath()};
+                    String[] data = {userNewAssy.getName(), userNewAssy.getImageFilePath(), userNewAssy.getAssyPath(), userNewAssy.getPartsPath()};
                     writer.writeNext(data);
                     writer.close();
                     JOptionPane.showMessageDialog(null, "Assembly successfully added!");

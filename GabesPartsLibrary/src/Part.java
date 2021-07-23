@@ -6,6 +6,8 @@ public class Part {
     private float price;
     private int quantity;
     private String picPath; // Path to part picture
+    private String csvPath; // path to the part csv
+
 
     public Part() {
     }
@@ -75,6 +77,15 @@ public class Part {
 
     public void setPicPath(String picPath) {
         this.picPath = picPath;
+    }
+
+    public String getCsvPath() {
+
+        return csvPath;
+    }
+
+    public void setCsvPath(String csvPath) {
+        this.csvPath = csvPath;
     }
 
     @Override

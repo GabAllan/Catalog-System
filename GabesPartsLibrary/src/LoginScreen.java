@@ -65,8 +65,8 @@ public class LoginScreen extends JFrame {
                             }
                         }
                         if (loginFlag) {
-//                            JOptionPane.showMessageDialog(null, "Login Successful!");
                             JFrame screen = new AdminScreen("Gabe's Small Engine Parts Emporium");
+                            screen.setExtendedState(JFrame.MAXIMIZED_BOTH);
                             screen.setVisible(true);
                         }
                         else if (userExists){
