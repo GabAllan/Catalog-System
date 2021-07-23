@@ -84,6 +84,8 @@ public class LoginScreen extends JFrame {
 
             }
         });
+
+        // This opens the create new account window
         createNewAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,6 +93,8 @@ public class LoginScreen extends JFrame {
                 newAccount.setVisible(true);
             }
         });
+
+
     }
 
 }

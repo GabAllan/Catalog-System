@@ -21,6 +21,8 @@ public class AdminScreen extends JFrame  {
     private JPanel rightPanel;
     private JSplitPane labelPanel;
     private JComboBox assySelector;
+    private JButton createNewEngineButton;
+    private JButton createNewAssyButton;
     DefaultComboBoxModel<Assembly> assyModel;
 
 
@@ -36,9 +38,28 @@ public class AdminScreen extends JFrame  {
         // Since it is just a list, but drop down
         engModel = new DefaultComboBoxModel<>();
         engineSelector.setModel(engModel);
+
         // This should add the models based on a CSV full of stuff??
+        // First walk through the engines folder
+        // go in to each engine folder and
+        // look for the csv file bearing the same name as the folder
+        // and pull the first element to populate the dropdown
+        // File Tree walking, this video was super useful: https://www.youtube.com/watch?v=aimd2tn0hLM
+//        Path dir = Paths.get("./src/Engines");
+//        EngineFileVisitor visitor = new EngineFileVisitor();
+//        try {
+//            Files.walkFileTree(dir, visitor);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        
+
+        // The following was just testing code, I am leaving it in for
+        // future troubleshooting should the need arise
         Engine gx390 = new Engine("Honda", "GX390", new ArrayList<Assembly>());
         engModel.addElement(gx390);
+
+
         Assembly airCleaner = new Assembly("Air Cleaner", new ArrayList<Part>());
         gx390.assys.add(airCleaner);
         assyModel = new DefaultComboBoxModel(gx390.assys.toArray());
@@ -110,6 +131,17 @@ public class AdminScreen extends JFrame  {
 
             }
         });
+
+        // Opens the create new engine dialog
+        createNewEngineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame addNewEngine = new CreateNewEngine("Add New Engine...");
+                addNewEngine.setVisible(true);
+            }
+        });
+
+
     }
 
 }

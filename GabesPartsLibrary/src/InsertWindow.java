@@ -56,5 +56,14 @@ public class InsertWindow extends JFrame {
 
             }
         });
+
+        // This will open the create new engine box
+        createNewEngineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame addNewEngine = new CreateNewEngine("Add New Engine...");
+                addNewEngine.setVisible(true);
+            }
+        });
     }
 }
