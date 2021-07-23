@@ -4,6 +4,7 @@ public class Assembly {
     private String name;
     private String imageFilePath;
     public ArrayList<Part> parts = new ArrayList<Part>(); // There is a list of parts associated with each assembly
+    private String assyPath;
 
     public Assembly() {
     }
@@ -35,6 +36,14 @@ public class Assembly {
 
     public void setImageFilePath(String imageFilePath) {
         this.imageFilePath = imageFilePath;
+    }
+
+    public String getAssyPath() {
+        return assyPath;
+    }
+
+    public void setAssyPath(String assyPath) {
+        this.assyPath = assyPath;
     }
 
     @Override

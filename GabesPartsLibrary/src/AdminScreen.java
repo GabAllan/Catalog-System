@@ -1,8 +1,15 @@
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AdminScreen extends JFrame  {
@@ -39,31 +46,43 @@ public class AdminScreen extends JFrame  {
         engModel = new DefaultComboBoxModel<>();
         engineSelector.setModel(engModel);
 
-        // This should add the models based on a CSV full of stuff??
-        // First walk through the engines folder
-        // go in to each engine folder and
-        // look for the csv file bearing the same name as the folder
-        // and pull the first element to populate the dropdown
-        // File Tree walking, this video was super useful: https://www.youtube.com/watch?v=aimd2tn0hLM
-//        Path dir = Paths.get("./src/Engines");
-//        EngineFileVisitor visitor = new EngineFileVisitor();
-//        try {
-//            Files.walkFileTree(dir, visitor);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        
+        assyModel = new DefaultComboBoxModel<>();
+        assySelector.setModel(assyModel);
+
+        // The following populates the Engines drop down menu
+        File f = new File("./src/Engines");
+        String[] paths;
+        paths = f.list();
+        for(String path:paths) {
+            try {
+                FileReader filereader = new FileReader("./src/Engines/" + path + "/" + path + ".csv");
+                CSVReader csvReader = new CSVReader(filereader);
+                String[] nextRecord;
+                while ((nextRecord = csvReader.readNext()) != null) {
+
+                    engModel.addElement(new Engine(nextRecord[0], nextRecord[1], new ArrayList<>(), "./src/Engines/" + path));
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (CsvValidationException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
 
         // The following was just testing code, I am leaving it in for
         // future troubleshooting should the need arise
-        Engine gx390 = new Engine("Honda", "GX390", new ArrayList<Assembly>());
-        engModel.addElement(gx390);
+        // Engine gx390 = new Engine("Honda", "GX390", new ArrayList<Assembly>());
+        // engModel.addElement(gx390);
 
 
-        Assembly airCleaner = new Assembly("Air Cleaner", new ArrayList<Part>());
-        gx390.assys.add(airCleaner);
-        assyModel = new DefaultComboBoxModel(gx390.assys.toArray());
-        assySelector.setModel(assyModel);
+        // Assembly airCleaner = new Assembly("Air Cleaner", new ArrayList<Part>());
+        // gx390.assys.add(airCleaner);
+        // assyModel = new DefaultComboBoxModel(gx390.assys.toArray());
+        // assySelector.setModel(assyModel);
 
 
         // List Code
@@ -141,7 +160,47 @@ public class AdminScreen extends JFrame  {
             }
         });
 
+        // This will add a new assembly to the selected Engine
+        // from the Engine dropdown menu
+        createNewAssyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame addNewAssy = new CreateNewAssy("Add New Assembly...", engModel.getElementAt(engineSelector.getSelectedIndex()));
+                addNewAssy.setVisible(true);
+            }
+        });
 
+        // When a new item is selected
+        // It should update the assemblies dropdown
+        engineSelector.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // First, clear the model
+                assyModel.removeAllElements();
+
+                // Then the Assemblies are populated
+                File assysF = new File(engModel.getElementAt(engineSelector.getSelectedIndex()).getEnginePath() + "/Assemblies");
+                String[] assyPaths;
+                assyPaths = assysF.list();
+                for (String path : assyPaths) {
+                    try {
+                        String csv = engModel.getElementAt(engineSelector.getSelectedIndex()).getEnginePath() + "/Assemblies/" + path;
+                        FileReader filereader = new FileReader(csv);
+                        CSVReader csvReader = new CSVReader(filereader);
+                        String[] nextRecord;
+                        while ((nextRecord = csvReader.readNext()) != null) {
+                            assyModel.addElement(new Assembly(nextRecord[0], new ArrayList<Part>()));
+                        }
+                    } catch (FileNotFoundException f) {
+                        f.printStackTrace();
+                    } catch (CsvValidationException f) {
+                        f.printStackTrace();
+                    } catch (IOException f) {
+                        f.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
 }

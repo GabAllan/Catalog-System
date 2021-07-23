@@ -4,8 +4,16 @@ public class Engine {
     private String brandName;
     private String modelNum;
     public ArrayList<Assembly> assys = new ArrayList<Assembly>();
+    private String enginePath;
 
     public Engine() {
+    }
+
+    public Engine(String brandName, String modelNum, ArrayList<Assembly> assys, String enginePath) {
+        this.brandName = brandName;
+        this.modelNum = modelNum;
+        this.assys = assys;
+        this.enginePath = enginePath;
     }
 
     public Engine(String brandName, String modelNum, ArrayList<Assembly> assys) {
@@ -45,6 +53,15 @@ public class Engine {
 //    public void setAssys(ArrayList<Assembly> assys) {
 //        this.assys = assys;
 //    }
+
+
+    public String getEnginePath() {
+        return enginePath;
+    }
+
+    public void setEnginePath(String enginePath) {
+        this.enginePath = enginePath;
+    }
 
     @Override
     public String toString() {

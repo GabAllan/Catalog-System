@@ -23,6 +23,8 @@ public class CreateNewEngine extends JFrame {
         this.setContentPane(NewEngineWindow);
         this.pack();
 
+
+
         // Ok Button
         // This should commit the changes
         okButton.addActionListener(new ActionListener() {
@@ -46,6 +48,7 @@ public class CreateNewEngine extends JFrame {
                     // Define the new folder name as well as the folder path
                     String folderName = eng.getBrandName() + "_" + eng.getModelNum();
                     String path = "./src/Engines/" + folderName;
+                    eng.setEnginePath(path); // Makes life easier to be able to access this on the fly...
                     String assyPath = path + "/Assemblies";
                     String assyCsvFile = assyPath + "/" + folderName + "_assys" + ".csv";
 
