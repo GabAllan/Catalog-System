@@ -246,7 +246,9 @@ public class AdminScreen extends JFrame  {
                             part.setCsvPath(nextRecord[7]);
                             model.addElement(part);
                         }
-
+                        // If you don't close the readers, you won't be able to delete any files
+                        csvReader.close();
+                        filereader.close();
                     }
                 }
                 catch (NullPointerException n) {
