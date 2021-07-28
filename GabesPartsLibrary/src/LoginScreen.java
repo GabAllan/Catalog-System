@@ -58,8 +58,9 @@ public class LoginScreen extends JFrame {
                                 // are also stored in plaintext!
                                 if (nextRecord[0].equals(usernameInput.getText()) && nextRecord[1].equals(passwordInput.getText())) {
                                     loginFlag = true;
+
                                     // If the User is an admin, set the adminFlag
-                                    if (nextRecord[3] == "true") {
+                                    if (nextRecord[3].equals("true")) {
                                         adminFlag = true;
                                     }
                                     break;
