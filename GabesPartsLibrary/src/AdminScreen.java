@@ -113,7 +113,11 @@ public class AdminScreen extends JFrame  {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Engine selEng = engModel.getElementAt(engineSelector.getSelectedIndex());
+                Assembly selAsy = assyModel.getElementAt(assySelector.getSelectedIndex());
+                Part selPart = model.elementAt(partsList.getSelectedIndex());
+                JFrame addPart = new InsertWindow("Add New Part", selEng, selAsy, selPart);
+                addPart.setVisible(true);
             }
         });
 
