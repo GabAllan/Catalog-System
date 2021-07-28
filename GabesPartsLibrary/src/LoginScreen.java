@@ -43,7 +43,8 @@ public class LoginScreen extends JFrame {
                         // file reader as a parameter
                         CSVReader csvReader = new CSVReader(filereader);
                         String[] nextRecord;
-                        boolean loginFlag = false;
+                        boolean loginFlag = false; // Successful Login
+                        boolean adminFlag = false; // Admin Checker
                         boolean userExists = false;
                         // we are going to read data line by line
                         while ((nextRecord = csvReader.readNext()) != null) {
@@ -57,6 +58,10 @@ public class LoginScreen extends JFrame {
                                 // are also stored in plaintext!
                                 if (nextRecord[0].equals(usernameInput.getText()) && nextRecord[1].equals(passwordInput.getText())) {
                                     loginFlag = true;
+                                    // If the User is an admin, set the adminFlag
+                                    if (nextRecord[3] == "true") {
+                                        adminFlag = true;
+                                    }
                                     break;
                                 }
                                 else if (nextRecord[0].equals(usernameInput.getText())) {
@@ -65,9 +70,17 @@ public class LoginScreen extends JFrame {
                             }
                         }
                         if (loginFlag) {
-                            JFrame screen = new AdminScreen("Gabe's Small Engine Parts Emporium");
-                            screen.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                            screen.setVisible(true);
+                            // Check if the user logging in is an Admin
+                            if (adminFlag) {
+                                JFrame screen = new AdminScreen("Gabe's Small Engine Parts Emporium");
+                                screen.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizes the screen
+                                screen.setVisible(true);
+                            } else {
+                                JFrame screen = new CustomerScreen("Gabe's Small Engine Parts Emporium");
+                                screen.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximizes the screen
+                                screen.setVisible(true);
+                            }
+
                         }
                         else if (userExists){
                             JOptionPane.showMessageDialog(null, "Incorrect password. Please try again.");
